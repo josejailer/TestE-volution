@@ -1,0 +1,65 @@
+<div class="overlay" [ngStyle]="{'display':display}"></div>
+<!-- Modal -->
+<div class="modal" [ngStyle]="{'display':display}" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">{{ isEditModeEnabled ? 'Edit' : 'Add'}} task</h5>
+				<button (click)="closeModal(myForm)" type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form #myForm="ngForm">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder='Ingrese nombre' [(ngModel)]='iTask.name' name="name"
+							#name required>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder='Ingrese prioridad' [(ngModel)]='iTask.priority'
+							name="priority" #priority required>
+					</div>
+					<div class="form-group">
+						<input type="date" class="form-control" placeholder='Ingrese fecha' [(ngModel)]='iTask.date' name="date"
+							#dete required>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" [(ngModel)]='iTask.id' name="id" #id hidden>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-dismiss="modal" (click)="closeModal(myForm)">Close</button>
+				<input *ngIf="!isEditModeEnabled" type="button" class="btn btn-primary" (click)="addTask(myForm)"
+					value='Add task'>
+				<input *ngIf="isEditModeEnabled" type="button" class="btn btn-success" (click)="updateTask(myForm)"
+					value='Update'>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Prioridad</th>
+				<th>Fecha</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let task of tasks">
+				<td>{{task.name }}</td>
+				<td>{{task.priority }}</td>
+				<td>{{task.date }}</td>
+				<td>
+					<button (click)="deleteTaks(task.id)" class="btn btn-danger fa fa-trash-o"></button>Eliminar
+				</td>
+				<td>
+					<button (click)="editTaks(task)" class="btn btn-primary fa fa-pencil-square-o">Editar</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<button (click)="openModalDialog()" class="btn btn-primary">Add task</button>
+</div>
